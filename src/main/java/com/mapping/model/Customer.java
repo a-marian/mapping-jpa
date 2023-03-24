@@ -10,12 +10,12 @@ import java.util.List;
 @Table(name="CUSTOMER")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
     @Column(name ="CUSTOMER_NAME", length = 50, nullable = false)
     private String customerName;
-    @Column(name = "CUSTOMER_ADDRESS", length = 50)
-    private String customerAddress;
+    @Column(name = "ADDRESS", length = 50)
+    private String address;
     @Column(name = "TAX_IDENTIFIER", length = 25)
     private String taxIdentifier;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)

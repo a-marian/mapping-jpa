@@ -42,8 +42,16 @@ CREATE TABLE IF NOT EXISTS PRODUCT(
 CREATE TABLE IF NOT EXISTS COMPUTER(
     COMPUTER_ID SERIAL PRIMARY KEY,
     CODE VARCHAR(10) NOT NULL,
-    BRAND VARCHAR(15),
-    FK_CASHIER_ID UNIQUE FOREIGN KEY
-    REFERENCES CASHIER(CASHIER_ID)
-
+    BRAND VARCHAR(15)
 );
+
+//----alter tables for sequences -----//
+ALTER TABLE demodb.computer ALTER COLUMN computer_id SET DEFAULT nextval('demodb.computer_id_seq');
+ALTER TABLE demodb.computer ALTER COLUMN computer_id SET DEFAULT nextval('demodb.computer_id_seq');
+ALTER TABLE demodb.computer ALTER COLUMN computer_id SET NOT NULL;
+ALTER SEQUENCE demodb.computer_id_seq OWNED BY demodb.computer.computer_id;
+
+ALTER TABLE demodb.computer ALTER COLUMN computer_id SET DEFAULT nextval('demodb.computer_id_seq');
+ALTER TABLE demodb.computer ALTER COLUMN computer_id SET DEFAULT nextval('demodb.computer_id_seq');
+ALTER TABLE demodb.computer ALTER COLUMN computer_id SET NOT NULL;
+ALTER SEQUENCE demodb.computer_id_seq OWNED BY demodb.computer.computer_id;

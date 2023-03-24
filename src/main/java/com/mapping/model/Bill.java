@@ -8,7 +8,7 @@ import java.util.Set;
 public class Bill {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long billId;
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("customerId")
