@@ -5,11 +5,13 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
+@Table(name="BILL")
 public class Bill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long billId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("customerId")
     @JoinColumn(name = "CUSTOMER_ID")
