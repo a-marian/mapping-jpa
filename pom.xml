@@ -62,13 +62,14 @@
 			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- lombok annotations -->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.18.26</version>
+				<scope>provided</scope>
+			</dependency>
 
-		<dependency>
-			<groupId>net.java.dev.jna</groupId>
-			<artifactId>jna</artifactId>
-			<version>5.8.0</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
