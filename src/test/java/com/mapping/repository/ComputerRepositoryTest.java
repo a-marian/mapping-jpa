@@ -1,72 +1,74 @@
 package com.mapping.repository;
 
 import com.mapping.model.Computer;
-import com.mapping.record.ComputerRecord;
+import jakarta.transaction.Transactional;
+import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.Collection;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
-@DataJpaTest
-@Testcontainers
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class ComputerRepositoryTest {
 
-    @Container
-    static PostgreSQLContainer database = new PostgreSQLContainer<>("postgres:12")
-            .withDatabaseName("demodb")
-            .withUsername("postgres")
-            .withPassword("testing");
-
-    @DynamicPropertySource
-    static void setDatasourceProperties(DynamicPropertyRegistry propertyRegistry){
-        propertyRegistry.add("spring.datasource.url", database::getJdbcUrl);
-        propertyRegistry.add("spring.datasource.username", database::getUsername);
-        propertyRegistry.add("spring.datasource.password", database::getPassword);
-    }
+    @ClassRule
+    static PostgreSQLContainer database = DatabaseTest.getInstance();
 
     @Autowired
     private ComputerRepository computerRepository;
 
     @Test
-    void saveComputer() {
-
-
-
+    @Transactional
+    void whenPersistComputerThenNotNullComputerId() {
+        Computer computer = createComputer("AAA212", "HP" );
+        assertNull(computer.getComputerId());
+        computerRepository.persist(computer);
+        assertNotNull(computer.getComputerId());
     }
 
-
-    @Test
-    void findAllContainingAppleBrand() {
-        List<ComputerRecord> computerRecords = computerRepository.findAllContainingAppleBrand();
-        assertEquals(2, computerRecords);
-    }
-
-    @Test
-    void persist() {
-        Computer computer1 = createComputer("AAA123", "Apple" );
-        Computer computer2 = createComputer("AAA222", "HP" );
-        Computer computer3 = createComputer("AAA333", "Apple" );
-        Computer computer4 = createComputer("AAA444", "Dell" );
-        computerRepository.persist(computer1);
-        computerRepository.persist(computer2);
-        computerRepository.persist(computer3);
-        computerRepository.persist(computer4);
-    }
     private Computer createComputer(String code, String brand) {
         Computer comp = new Computer();
         comp.setCode(code);
         comp.setBrand(brand);
         return comp;
+    }
+
+    @Test
+    @Transactional
+    void whenFindAllAppleComputersThenAppleFound(){
+        addComputers();
+        Collection<Computer> computerRecords = computerRepository.findAllAppleComputers();
+        assertThat(computerRecords).hasSize(3);
+    }
+
+    @Test
+    @Transactional
+    void whenFindAllAppleComputersNativeThenAppleFound(){
+        addComputers();
+        List<Computer> computers = computerRepository.findAllAppleComputersNative();
+        assertThat(computers).hasSize(3);
+    }
+
+
+    private void addComputers(){
+        computerRepository.persist(createComputer("AAA123", "Apple" ));
+        computerRepository.persist(createComputer("AAA222", "HP" ));
+        computerRepository.persist(createComputer("AAA333", "Apple" ));
+        computerRepository.persist(createComputer("AAA444", "Dell" ));
+        computerRepository.persist(createComputer("AAA123", "Apple" ));
+        computerRepository.flush();
+
     }
 }
