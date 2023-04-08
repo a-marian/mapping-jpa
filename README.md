@@ -8,11 +8,11 @@ This repository was created with the purpose to show mapping with SpringJPA, Hib
 ## Requirements 
     
 For this project you need to install Docker for testing phase, 
-PostgreSQL for database connection and Maven. Java 17.
+PostgreSQL for database connection, Maven and Java 17.
 
-* If you have installed Docker you can use the image with the docker-compose.yml file included.
+* For PostgreSQL, if you have installed Docker you can use the image with the docker-compose.yml file included.
 
-## Donwload links
+## Download links
 From this page you can download installer according your operating system.   
 Docker: https://www.docker.com   
 PostgreSQL: https://www.postgresql.org/download/    

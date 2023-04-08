@@ -10,8 +10,7 @@ import java.util.List;
 
 @Repository
 public interface CashierRepository extends JpaRepository<Cashier, Long>, BaseHibernateRepository<Cashier> {
-    /**spilca-C29Fspilca-4941
-     */
+
     @Modifying
     @Query("UPDATE Cashier c SET c.status = :status WHERE c.mail = :mail")
     int updateCashierSetStatusByMail(@Param("status") boolean status, @Param("mail") String mail);
