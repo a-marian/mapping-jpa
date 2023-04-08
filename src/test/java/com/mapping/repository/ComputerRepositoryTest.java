@@ -2,7 +2,6 @@ package com.mapping.repository;
 
 import com.mapping.model.Computer;
 import jakarta.transaction.Transactional;
-import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -46,29 +45,15 @@ class ComputerRepositoryTest {
     }
 
     @Test
-    @Transactional
     void whenFindAllAppleComputersThenAppleFound(){
-        addComputers();
         Collection<Computer> computerRecords = computerRepository.findAllAppleComputers();
         assertThat(computerRecords).hasSize(3);
     }
 
     @Test
-    @Transactional
     void whenFindAllAppleComputersNativeThenAppleFound(){
-        addComputers();
         List<Computer> computers = computerRepository.findAllAppleComputersNative();
         assertThat(computers).hasSize(3);
     }
 
-
-    private void addComputers(){
-        computerRepository.persist(createComputer("AAA123", "Apple" ));
-        computerRepository.persist(createComputer("AAA222", "HP" ));
-        computerRepository.persist(createComputer("AAA333", "Apple" ));
-        computerRepository.persist(createComputer("AAA444", "Dell" ));
-        computerRepository.persist(createComputer("AAA123", "Apple" ));
-        computerRepository.flush();
-
-    }
 }
