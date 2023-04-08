@@ -1,7 +1,9 @@
 package com.mapping.repository;
 
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+@DataJpaTest(properties = "spring.sql.init.data-locations=classpath:import.sql", showSql = false)
 public class DatabaseTest extends PostgreSQLContainer<DatabaseTest> {
 
     private static final String IMAGE_VERSION = "postgres:12";
@@ -29,6 +31,5 @@ public class DatabaseTest extends PostgreSQLContainer<DatabaseTest> {
     @Override
     public void stop() {
         super.stop();
-        // do nothing, JVM handles sshut down
     }
 }
